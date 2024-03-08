@@ -1,5 +1,5 @@
-#define BLYNK_TEMPLATE_ID "TMPL3krHoxTxl"
-#define BLYNK_TEMPLATE_NAME "hdrg"
+#define BLYNK_TEMPLATE_ID "TMPL3krHoxTxl" // Edit BLYNK_TEMPLATE_ID accordingly
+#define BLYNK_TEMPLATE_NAME "hdrg" // Edit BLYNK_TEMPLATE_NAME accordingly
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
 #include <Servo.h>
