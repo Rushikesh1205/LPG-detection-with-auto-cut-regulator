@@ -1,0 +1,45 @@
+#define BLYNK_TEMPLATE_ID "TMPL3krHoxTxl"
+#define BLYNK_TEMPLATE_NAME "hdrg"
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+#include <Servo.h>
+
+#define BLYNK_PRINT Serial
+#define Buzzer D2 // Pin for the buzzer
+
+Servo gasValveServo;
+int servoPosition = 0; // Variable to hold servo position
+const int servoPin = D1;
+const int gasSensorPin = A0;
+const int thresholdValue = 300; // Threshold value
+
+char auth[] = "nkFE5fqQFqWrHlCxUxmiOgajBafkk9Js"; // Auth Token Name
+char ssid[] = "Rushikesh Gavhane"; // Network SSID (name)
+char pass[] = "Rushii#123"; // Network password
+
+BLYNK_WRITE(V2) {
+  servoPosition = param.asInt(); 
+}
+
+void setup() {
+  gasValveServo.attach(servoPin);
+  Serial.begin(9600);
+  Blynk.begin(auth, ssid, pass);
+  pinMode(Buzzer, OUTPUT);
+}
+void loop(){
+  Blynk.run();
+  int sensorValue = analogRead(gasSensorPin);
+  Blynk.virtualWrite(V1, sensorValue);
+  Serial.println(sensorValue);
+  
+  if (sensorValue > thresholdValue) {
+    digitalWrite(Buzzer, HIGH);
+    gasValveServo.write(180); // 180 degrees is the 'valve closed' position
+    delay(20000); // 20 seconds before next reading to avoid continuous operation
+  } else {
+    digitalWrite(Buzzer, LOW);
+    gasValveServo.write(servoPosition);
+  }
+  delay(1000); 
+} 
